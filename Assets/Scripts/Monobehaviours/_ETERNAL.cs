@@ -11,8 +11,8 @@ public class _ETERNAL : MonoBehaviour
 {
     public static _ETERNAL I;
 
-    public GameSettings gameSettings;
-    public GameEditorSettings gameEditorSettings;
+    //public GameSettings gameSettings;
+    //public GameEditorSettings gameEditorSettings;
 
     //children
     public bool transformableUsed;
