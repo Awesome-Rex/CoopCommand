@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,8 +11,7 @@ public class _ETERNAL : MonoBehaviour
 {
     public static _ETERNAL I;
 
-    [SerializeField]
-    public GameControls controls;
+    //public GameControls controls;
 
     //children
     public bool transformableUsed;
@@ -52,7 +50,7 @@ public class _ETERNAL : MonoBehaviour
 
         I = this;
 
-        controls = new GameControls();
+        //controls = new GameControls();
 
         //children
         transformableUsed = false;
@@ -77,7 +75,7 @@ public class _ETERNAL : MonoBehaviour
 
         I = this;
 
-        controls = new GameControls();
+        //controls = new GameControls();
 
         //children
         transformableUsed = false;
