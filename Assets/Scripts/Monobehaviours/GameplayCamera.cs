@@ -8,6 +8,9 @@ public class GameplayCamera : MonoBehaviour
 {
     public static GameplayCamera I;
 
+    public float mousePadding = 0.25f;
+
+    [Space]
     public float normalFOV = 60f;
 
     public float speed = 100f;
@@ -33,6 +36,7 @@ public class GameplayCamera : MonoBehaviour
 
     //dynamic
     public CamState state = CamState.Ground;
+    public bool showAllFloors = false;
 
     //other
     private float percentOff;
@@ -51,7 +55,10 @@ public class GameplayCamera : MonoBehaviour
     {
         percentOff = (Camera.main.ScreenToViewportPoint(Input.mousePosition) - (Vector3.right / 2f)).x * 2f;
         Mathf.Clamp(percentOff, -1f, 1f);
+        //adds padding so cursor doesn't need to be at end ogf screen
+        percentOff = Mathf.Clamp(-percentOff * (1f + mousePadding), -1f, 1f);
 
+        //ground
         if (Camera.main.ScreenToViewportPoint(Input.mousePosition).x <= 1f && Camera.main.ScreenToViewportPoint(Input.mousePosition).x >= 0f &&
             Camera.main.ScreenToViewportPoint(Input.mousePosition).y <= 1f && Camera.main.ScreenToViewportPoint(Input.mousePosition).y >= 0f
             ) {
@@ -61,10 +68,11 @@ public class GameplayCamera : MonoBehaviour
                 targetRotation = Quaternion.LookRotation(-GameplayControl.I.ship.transform.forward);
 
                 targetFOV = normalFOV;
-            } else if (state == CamState.Ship)
+            } else if (state == CamState.Ship) //side
             {
                 targetPosition = GameplayControl.I.ship.transform.position +
-                    (Quaternion.Euler(new Vector3(0f, 0f, maxShipDegreees * (-percentOff))) * Vector3.up * shipDistance);
+                    (Quaternion.Euler(new Vector3(0f, 0f, maxShipDegreees * percentOff)) * 
+                    Vector3.up * shipDistance);
 
                 if (Input.GetMouseButton(0)) {
                     targetRotation = Quaternion.LookRotation(GameplayControl.I.ship.transform.position - transform.position) * Quaternion.Euler(Vector3.right * shipOffsetDegrees);
@@ -74,7 +82,7 @@ public class GameplayCamera : MonoBehaviour
                 }
 
                 targetFOV = normalFOV;
-            } else if (state == CamState.ShipBack)
+            } else if (state == CamState.ShipBack) //back
             {
                 targetPosition = GameplayControl.I.ship.transform.position +
                     (Quaternion.Euler(new Vector3(-shipBackOffsetDegreePos, 0f, 0f)) * Vector3.up * shipBackDistance);

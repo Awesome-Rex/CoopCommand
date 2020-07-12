@@ -68,29 +68,4 @@ public class _ETERNAL : MonoBehaviour
         //settings
         lateRecorder.lateCallbackF += () => counter = !counter;
     }
-
-    void OnEnable()
-    {
-        DontDestroyOnLoad(gameObject);
-
-        I = this;
-
-        //controls = new GameControls();
-
-        //children
-        transformableUsed = false;
-        transformable = GameObject.FindGameObjectWithTag("Transformable").transform;
-
-        counter = false;
-
-        //component references
-        resourceReference = GetComponent<ResourceReference>();
-
-        lateRecorder = GetComponent<LateRecorder>();
-        earlyRecorder = GetComponent<EarlyRecorder>();
-
-
-        //settings
-        lateRecorder.lateCallbackF += () => counter = !counter;
-    }
 }

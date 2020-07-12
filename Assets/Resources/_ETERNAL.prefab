@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 5021975282267869463}
   - component: {fileID: -2422719445764174121}
   - component: {fileID: 4667697836436868367}
+  - component: {fileID: 4502473120227338489}
   m_Layer: 0
   m_Name: _ETERNAL
   m_TagString: _ETERNAL
@@ -134,3 +135,16 @@ MonoBehaviour:
   musicVolume: 0
   SFXVolume: 0
   highScore: 0
+--- !u!114 &4502473120227338489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5021975282267869462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 641b680b256a2d542b24f1b257675a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameMixer: {fileID: 24100000, guid: 9a69eb5444a8a6c43a58bdda84987f21, type: 2}
