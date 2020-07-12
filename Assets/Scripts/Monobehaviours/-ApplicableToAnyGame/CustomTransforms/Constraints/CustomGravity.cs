@@ -120,11 +120,12 @@ public class CustomGravity : CustomTransform<Vector3>
 
             if (space == Space.World)
             {
-                rigidbody.AddForce(operationalDirection * gravity * gravityScale, ForceMode.Acceleration);
+                rigidbody.AddForce(operationalDirection.normalized * gravity * gravityScale, ForceMode.Acceleration);
             }
             else if (space == Space.Self)
             {
-                rigidbody.AddForce(operationalDirection * gravity * gravityScale, ForceMode.Acceleration);
+                rigidbody.AddForce(operationalDirection.normalized * gravity * gravityScale, ForceMode.Acceleration);
+                Debug.Log(operationalDirection * gravity * gravityScale);
             }
         }
     }
@@ -139,7 +140,7 @@ public class CustomGravity : CustomTransform<Vector3>
         }
         else if (space == Space.Self)
         {
-            target = (parent.TransformPoint(Linking.InverseTransformPoint(parentPos + rigidbody.velocity, parentPos, parentRot)) - parent.position)/*.normalized*/ * rigidbody.velocity.magnitude;
+            target = (parent.TransformPoint(Linking.InverseTransformPoint(parentPos + rigidbody.velocity, parentPos, parentRot)) - parent.position).normalized * rigidbody.velocity.magnitude;
         }
 
         return target;

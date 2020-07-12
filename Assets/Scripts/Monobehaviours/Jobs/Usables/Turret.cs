@@ -5,6 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Usable), typeof(RadiusSensor), typeof(Health))]
 public class Turret : MonoBehaviourPRO
 {
+    public GameObject head;
+
     public float minSeconds = 2f;
     public float maxSeconds = 6f;
 
@@ -20,7 +22,7 @@ public class Turret : MonoBehaviourPRO
             {
                 GameObject target = GetComponent<RadiusSensor>().targets[Random.Range(0, GetComponent<RadiusSensor>().targets.Count - 1)];
 
-                transform.forward = target.transform.position - transform.position;
+                head.transform.forward = target.transform.position - transform.position;
 
                 //CREATE BULLET
             }

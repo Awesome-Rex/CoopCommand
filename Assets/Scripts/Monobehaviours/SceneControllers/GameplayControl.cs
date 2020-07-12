@@ -14,17 +14,28 @@ public class GameplayControl : SceneControl
 
     public List<FloorTrigger> floors;
 
+    //generated
+    public Vector3 goal;
+
     [Space]
     //dynamic
     public Controllable inControl;
-    public Vector3 goal;
+    public float progress
+    {
+        get
+        {
+            return Vector3.Distance(ship.transform.position, goal) / (Vector3.Distance(Vector3.zero, transform.position) + Vector3.Distance(ship.transform.position, goal));
+        }
+    }
 
 
     [HideInInspector]
     public List<Usable> usables;
     [HideInInspector]
     public List<EnemySpawnPoint> spawnPoints;
-    
+
+    [Space]
+    //reference
     public Transform ship;
 
     public void TransitionFloor (FloorTrigger floor)

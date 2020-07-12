@@ -6,8 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(Controllable))]
 public class Aimable : MonoBehaviour
 {
-    public Vector3 mousePosition;
-    
     public Vector3 direction
     {
         get
@@ -20,7 +18,7 @@ public class Aimable : MonoBehaviour
     {
         if (GetComponent<Controllable>().inControl)
         {
-            transform.forward = direction;
+            transform.forward = new Vector3(direction.x, 0f, direction.y);
         }
     }
 }

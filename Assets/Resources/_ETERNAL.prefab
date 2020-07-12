@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 5021975282267869460}
   - component: {fileID: 5021975282267869463}
   - component: {fileID: -2422719445764174121}
+  - component: {fileID: 4667697836436868367}
   m_Layer: 0
   m_Name: _ETERNAL
   m_TagString: _ETERNAL
@@ -118,3 +119,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a34b5bdab6253f34e8d8c8694d826419, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4667697836436868367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5021975282267869462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4704c2c2aeb4e7242ac105e4b6145198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicVolume: 0
+  SFXVolume: 0
+  highScore: 0

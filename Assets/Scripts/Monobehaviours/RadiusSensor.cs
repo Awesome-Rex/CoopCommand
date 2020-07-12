@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Collider))]
 public class RadiusSensor : MonoBehaviour
 {
     public List<GameObject> targets;
