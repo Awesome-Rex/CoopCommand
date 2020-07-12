@@ -7,7 +7,7 @@ public class SceneControl : MonoBehaviour
 {
     private GameObject instance;
 
-    private void Awake()
+    protected virtual void Awake()
     {
         transform.SetAsFirstSibling();
 
@@ -16,17 +16,5 @@ public class SceneControl : MonoBehaviour
             instance = Instantiate(Resources.Load("_ETERNAL") as GameObject);
             instance.transform.SetAsFirstSibling();
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

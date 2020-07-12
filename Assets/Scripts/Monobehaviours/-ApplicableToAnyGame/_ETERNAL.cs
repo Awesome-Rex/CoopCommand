@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -11,8 +12,8 @@ public class _ETERNAL : MonoBehaviour
 {
     public static _ETERNAL I;
 
-    //public GameSettings gameSettings;
-    //public GameEditorSettings gameEditorSettings;
+    [SerializeField]
+    public GameControls controls;
 
     //children
     public bool transformableUsed;
@@ -51,6 +52,8 @@ public class _ETERNAL : MonoBehaviour
 
         I = this;
 
+        controls = new GameControls();
+
         //children
         transformableUsed = false;
         transformable = GameObject.FindGameObjectWithTag("Transformable").transform;
@@ -68,31 +71,28 @@ public class _ETERNAL : MonoBehaviour
         lateRecorder.lateCallbackF += () => counter = !counter;
     }
 
-#if UNITY_EDITOR
-    /*[CustomEditor(typeof(_ETERNAL))]
-    public class E : EditorPRO<_ETERNAL>
+    void OnEnable()
     {
-        protected override void DeclareProperties()
-        {
-            
-        }
+        DontDestroyOnLoad(gameObject);
 
-        //private void OnEnable()
-        //{
-        //    //Debug.Log("called");
-        //    I = (_ETERNAL)target;
-        //}
+        I = this;
 
-        //public override void OnInspectorGUI()
-        //{
-        //    base.OnInspectorGUI();
-        //}
+        controls = new GameControls();
 
-        /*protected override void OnEnable()
-        {
-            base.OnEnable();
-            I = target;
-        }
-    }*/
-#endif
+        //children
+        transformableUsed = false;
+        transformable = GameObject.FindGameObjectWithTag("Transformable").transform;
+
+        counter = false;
+
+        //component references
+        resourceReference = GetComponent<ResourceReference>();
+
+        lateRecorder = GetComponent<LateRecorder>();
+        earlyRecorder = GetComponent<EarlyRecorder>();
+
+
+        //settings
+        lateRecorder.lateCallbackF += () => counter = !counter;
+    }
 }

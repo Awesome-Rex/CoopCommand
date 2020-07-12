@@ -4,15 +4,72 @@ using UnityEngine;
 
 public class HealthGroup : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<Health> group;
+
+    public float health
     {
-        
+        get
+        {
+            float total = 0f;
+            foreach (Health i in group)
+            {
+                total += i.health;
+            }
+
+            return total;
+        }
+    }
+    public float maxHealth
+    {
+        get
+        {
+            float total = 0f;
+            foreach (Health i in group)
+            {
+                total += i.maxHealth;
+            }
+
+            return total;
+        }
     }
 
-    // Update is called once per frame
+    public bool full
+    {
+        get
+        {
+            return health >= maxHealth;
+        }
+    }
+    public bool dead
+    {
+        get
+        {
+            return health <= 0f;
+        }
+    }
+
+    public System.Action EDead;
+
+    private bool prevDead = false;
+
+    [ContextMenu("Set Group")]
+    public void SetGroup ()
+    {
+        group = new List<Health>();
+
+        foreach (Health i in GetComponentsInChildren<Health>())
+        {
+            group.Add(i);
+        }
+    }
+
     void Update()
     {
-        
+        if (dead && !prevDead)
+        {
+            EDead();
+        }
+
+        prevDead = dead;
     }
 }

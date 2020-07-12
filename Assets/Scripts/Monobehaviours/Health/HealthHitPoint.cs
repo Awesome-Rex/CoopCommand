@@ -4,15 +4,10 @@ using UnityEngine;
 
 public class HealthHitPoint : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Health affected;
 
-    // Update is called once per frame
-    void Update()
+    public void Damage (float value)
     {
-        
+        affected.health -= value;
     }
 }
