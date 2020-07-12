@@ -6,22 +6,25 @@ using UnityEngine;
 using UnityEditor;
 #endif
 
-[RequireComponent(typeof(SceneControl))]
+[RequireComponent(typeof(SceneControl), typeof(LevelGenerator))]
 public class GameplayControl : SceneControl
 {
+    //set
     public static GameplayControl I;
 
     public List<FloorTrigger> floors;
 
+    [Space]
+    //dynamic
     public Controllable inControl;
+    public Vector3 goal;
+
 
     [HideInInspector]
     public List<Usable> usables;
-
     [HideInInspector]
     public List<EnemySpawnPoint> spawnPoints;
-
-
+    
     public Transform ship;
 
     public void TransitionFloor (FloorTrigger floor)
