@@ -7,6 +7,7 @@ public class FloorZone : MonoBehaviourPRO
     public string name;
 
     public List<MeshRenderer> toHide;
+    public List<MeshRenderer> toHideCurrent;
 
     public bool hidden
     {
@@ -17,6 +18,8 @@ public class FloorZone : MonoBehaviourPRO
         set
         {
             _hidden = value;
+
+            Debug.Log(value);
 
             foreach (MeshRenderer i in toHide)
             {
@@ -33,7 +36,6 @@ public class FloorZone : MonoBehaviourPRO
     }
 
     private bool _hidden = false;
-    private bool prevHidden;
 
     [ContextMenu("Get Meshes")]
     public void GetMeshes()

@@ -10,10 +10,12 @@ public class Aimable : MonoBehaviour
     {
         get
         {
-            return (Input.mousePosition) - Camera.main.WorldToScreenPoint(transform.position);
+            return 
+                (Input.mousePosition) - 
+                GameplayCamera.I.camera.ScaleFromTexture(GameplayCamera.I.camera.WorldToScreenPoint(transform.position));
         }
     }
-
+    
     void FixedUpdate()
     {
         if (GetComponent<Controllable>().inControl)

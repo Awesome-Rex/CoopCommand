@@ -9,22 +9,19 @@ public class Walkable : MonoBehaviourPRO
     public float velocityLimit = 2f;
 
     private Vector3 direction;
-    private Vector3 setDirection;
 
     // Update is called once per frame
     void FixedUpdate()
     {
         if (GetComponent<Controllable>().inControl)
         {
-            direction = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0f);
+            direction = new Vector3(Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical"));
 
             if (direction != Vector3.zero && GetComponent<Rigidbody>().velocity.magnitude < velocityLimit)
             {
-                //flat direction
-                setDirection = (Quaternion.LookRotation(direction.normalized) * Quaternion.Euler(0f, Camera.main.transform.eulerAngles.z, 0f)) * Vector3.forward * direction.magnitude;
-
+                //adds global position
                 GetComponent<Rigidbody>().position += (
-                    GameplayControl.I.ship.transform.InverseTransformPoint(GameplayControl.I.ship.transform.position + setDirection).normalized
+                    GameplayControl.I.ship.transform.InverseTransformPoint(GameplayControl.I.ship.transform.position + direction).normalized
                     * speed * Time.deltaTime);
             }
         }

@@ -7,6 +7,8 @@ public enum CamState { Ship, ShipBack, Ground }
 public class GameplayCamera : MonoBehaviour
 {
     public static GameplayCamera I;
+    [HideInInspector]
+    public Camera camera;
 
     public float mousePadding = 0.25f;
 
@@ -20,6 +22,8 @@ public class GameplayCamera : MonoBehaviour
     [Space]
     //ground
     public float groundDistance = 5f;
+    public float maxAimOffset = 0.4f;
+    public float maxAimOffsetWorld = 5f;
 
     [Space]
     //ship
@@ -48,6 +52,7 @@ public class GameplayCamera : MonoBehaviour
     private void Awake()
     {
         I = this;
+        camera = GetComponent<Camera>();
     }
 
     // Update is called once per frame
@@ -55,7 +60,7 @@ public class GameplayCamera : MonoBehaviour
     {
         percentOff = (Camera.main.ScreenToViewportPoint(Input.mousePosition) - (Vector3.right / 2f)).x * 2f;
         Mathf.Clamp(percentOff, -1f, 1f);
-        //adds padding so cursor doesn't need to be at end ogf screen
+        //adds padding so cursor doesn't need to be at end off screen
         percentOff = Mathf.Clamp(-percentOff * (1f + mousePadding), -1f, 1f);
 
         //ground
@@ -63,9 +68,17 @@ public class GameplayCamera : MonoBehaviour
             Camera.main.ScreenToViewportPoint(Input.mousePosition).y <= 1f && Camera.main.ScreenToViewportPoint(Input.mousePosition).y >= 0f
             ) {
             if (state == CamState.Ground) {
-                targetPosition = GameplayControl.I.inControl.transform.position + (GameplayControl.I.ship.forward * groundDistance);
+                targetPosition = GameplayControl.I.inControl.transform.position + (GameplayControl.I.ship.up * groundDistance);
+                //adds aim offset
+                Vector3 offset = new Vector3(
+                    (Input.mousePosition.x - (Camera.main.pixelWidth / 2f)) / Camera.main.pixelHeight,
+                    0f,
+                    (Input.mousePosition.y - (Camera.main.pixelHeight / 2f)) / Camera.main.pixelHeight);
+                offset = Vector3.ClampMagnitude(offset, maxAimOffset) * (maxAimOffsetWorld / maxAimOffset);
 
-                targetRotation = Quaternion.LookRotation(-GameplayControl.I.ship.transform.forward);
+                targetPosition += offset;
+
+                targetRotation = Quaternion.LookRotation(-GameplayControl.I.ship.transform.up);
 
                 targetFOV = normalFOV;
             } else if (state == CamState.Ship) //side
@@ -101,6 +114,6 @@ public class GameplayCamera : MonoBehaviour
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
-        Camera.main.fieldOfView = Mathf.Lerp(Camera.main.fieldOfView, targetFOV, fieldOfViewSpeed * Time.deltaTime);
+        camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, targetFOV, fieldOfViewSpeed * Time.deltaTime);
     }
 }

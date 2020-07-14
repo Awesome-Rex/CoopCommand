@@ -125,7 +125,6 @@ public class CustomGravity : CustomTransform<Vector3>
             else if (space == Space.Self)
             {
                 rigidbody.AddForce(operationalDirection.normalized * gravity * gravityScale, ForceMode.Acceleration);
-                Debug.Log(operationalDirection * gravity * gravityScale);
             }
         }
     }
