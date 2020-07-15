@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum CamState { Ship, ShipBack, Ground }
 
-public class GameplayCamera : MonoBehaviour
+public class GameplayCamera : MonoBehaviourPRO
 {
     public static GameplayCamera I;
     [HideInInspector]
@@ -49,9 +49,62 @@ public class GameplayCamera : MonoBehaviour
     private Quaternion targetRotation;
     private float targetFOV;
 
+    void SetTarget ()
+    {
+        if (state == CamState.Ground)
+        {
+            targetPosition = GameplayControl.I.inControl.transform.position + (GameplayControl.I.ship.up * groundDistance);
+            //adds aim offset
+            Vector3 offset = new Vector3(
+                (Input.mousePosition.x - (Camera.main.pixelWidth / 2f)) / Camera.main.pixelHeight,
+                0f,
+                (Input.mousePosition.y - (Camera.main.pixelHeight / 2f)) / Camera.main.pixelHeight);
+            offset = Vector3.ClampMagnitude(offset, maxAimOffset) * (maxAimOffsetWorld / maxAimOffset);
+
+            targetPosition += offset;
+
+            targetRotation = Quaternion.LookRotation(-GameplayControl.I.ship.transform.up);
+
+            targetFOV = normalFOV;
+        }
+        else if (state == CamState.Ship) //side
+        {
+            targetPosition = GameplayControl.I.ship.transform.position +
+                (Quaternion.Euler(new Vector3(0f, 0f, maxShipDegreees * percentOff)) *
+                Vector3.up * shipDistance);
+
+            if (Input.GetMouseButton(0))
+            {
+                targetRotation = Quaternion.LookRotation(GameplayControl.I.ship.transform.position - transform.position) * Quaternion.Euler(Vector3.right * shipOffsetDegrees);
+            }
+            else
+            {
+                targetRotation = Quaternion.LookRotation(GameplayControl.I.ship.transform.position - transform.position);
+            }
+
+            targetFOV = normalFOV;
+        }
+        else if (state == CamState.ShipBack) //back
+        {
+            targetPosition = GameplayControl.I.ship.transform.position +
+                (Quaternion.Euler(new Vector3(-shipBackOffsetDegreePos, 0f, 0f)) * Vector3.up * shipBackDistance);
+            if (Input.GetMouseButton(0))
+            {
+                targetRotation = Quaternion.LookRotation(GameplayControl.I.ship.transform.position - transform.position) * Quaternion.Euler(Vector3.right * -shipBackOffsetDegrees);
+                targetFOV = shipBackOffsetFOV;
+            }
+            else
+            {
+                targetRotation = Quaternion.LookRotation(GameplayControl.I.ship.transform.position - transform.position);
+                targetFOV = normalFOV;
+            }
+        }
+    }
+
     private void Awake()
     {
         I = this;
+        //camera = ((MonoBehaviour)this).GetComponent<Camera>();
         camera = GetComponent<Camera>();
     }
 
@@ -67,49 +120,16 @@ public class GameplayCamera : MonoBehaviour
         if (Camera.main.ScreenToViewportPoint(Input.mousePosition).x <= 1f && Camera.main.ScreenToViewportPoint(Input.mousePosition).x >= 0f &&
             Camera.main.ScreenToViewportPoint(Input.mousePosition).y <= 1f && Camera.main.ScreenToViewportPoint(Input.mousePosition).y >= 0f
             ) {
-            if (state == CamState.Ground) {
-                targetPosition = GameplayControl.I.inControl.transform.position + (GameplayControl.I.ship.up * groundDistance);
-                //adds aim offset
-                Vector3 offset = new Vector3(
-                    (Input.mousePosition.x - (Camera.main.pixelWidth / 2f)) / Camera.main.pixelHeight,
-                    0f,
-                    (Input.mousePosition.y - (Camera.main.pixelHeight / 2f)) / Camera.main.pixelHeight);
-                offset = Vector3.ClampMagnitude(offset, maxAimOffset) * (maxAimOffsetWorld / maxAimOffset);
-
-                targetPosition += offset;
-
-                targetRotation = Quaternion.LookRotation(-GameplayControl.I.ship.transform.up);
-
-                targetFOV = normalFOV;
-            } else if (state == CamState.Ship) //side
+            if (state == CamState.Ground && GetComponent<ObstructionCamera>().subject == null)
             {
-                targetPosition = GameplayControl.I.ship.transform.position +
-                    (Quaternion.Euler(new Vector3(0f, 0f, maxShipDegreees * percentOff)) * 
-                    Vector3.up * shipDistance);
-
-                if (Input.GetMouseButton(0)) {
-                    targetRotation = Quaternion.LookRotation(GameplayControl.I.ship.transform.position - transform.position) * Quaternion.Euler(Vector3.right * shipOffsetDegrees);
-                } else
-                {
-                    targetRotation = Quaternion.LookRotation(GameplayControl.I.ship.transform.position - transform.position);
-                }
-
-                targetFOV = normalFOV;
-            } else if (state == CamState.ShipBack) //back
-            {
-                targetPosition = GameplayControl.I.ship.transform.position +
-                    (Quaternion.Euler(new Vector3(-shipBackOffsetDegreePos, 0f, 0f)) * Vector3.up * shipBackDistance);
-                if (Input.GetMouseButton(0))
-                {
-                    targetRotation = Quaternion.LookRotation(GameplayControl.I.ship.transform.position - transform.position) * Quaternion.Euler(Vector3.right * -shipBackOffsetDegrees);
-                    targetFOV = shipBackOffsetFOV;
-                }
-                else
-                {
-                    targetRotation = Quaternion.LookRotation(GameplayControl.I.ship.transform.position - transform.position);
-                    targetFOV = normalFOV;
-                }
+                GetComponent<ObstructionCamera>().subject = GameplayControl.I.inControl.transform;
             }
+            else if (state != CamState.Ground && GetComponent<ObstructionCamera>().subject != null)
+            {
+                GetComponent<ObstructionCamera>().subject = null;
+            }
+
+            SetTarget();
         }
 
         transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);

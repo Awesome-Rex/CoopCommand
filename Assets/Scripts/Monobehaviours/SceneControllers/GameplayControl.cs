@@ -13,7 +13,7 @@ public class GameplayControl : SceneControl
     //set
     public static GameplayControl I;
 
-    public List<FloorZone> floors;
+    //public List<FloorZone> floors;
 
     //generated
     public Vector3 goal;
@@ -40,35 +40,35 @@ public class GameplayControl : SceneControl
     public Transform ship;
 
     //previous
-    private bool showAllFloorsPrevious;
+    //private bool showAllFloorsPrevious;
 
-    public void TransitionFloor (FloorZone floor)
-    {
-        int floorIndex = floors.IndexOf(floor);
-        currentFloor = floor;
+    //public void TransitionFloor (FloorZone floor)
+    //{
+    //    int floorIndex = floors.IndexOf(floor);
+    //    currentFloor = floor;
 
-        if (!GameplayCamera.I.showAllFloors)
-        {
-            floor.hidden = false;
+    //    if (!GameplayCamera.I.showAllFloors)
+    //    {
+    //        floor.hidden = false;
         
-            for (int i = floorIndex + 1; i < floors.Count; i++)
-            {
-                floors[i].hidden = true;
-            }
-        }
+    //        for (int i = floorIndex + 1; i < floors.Count; i++)
+    //        {
+    //            floors[i].hidden = true;
+    //        }
+    //    }
 
-        if (floor.name == "Attic")
-        {
-            MusicPlayer.I.gameMixer.FindSnapshot("Enclosed").TransitionTo(3f);
-        }
-        else if (floor.name == "Basement")
-        {
-            MusicPlayer.I.gameMixer.FindSnapshot("Enclosed").TransitionTo(3f);
-        } else
-        {
-            MusicPlayer.I.gameMixer.FindSnapshot("Ground").TransitionTo(3f);
-        }
-    }
+    //    if (floor.name == "Attic")
+    //    {
+    //        MusicPlayer.I.gameMixer.FindSnapshot("Enclosed").TransitionTo(3f);
+    //    }
+    //    else if (floor.name == "Basement")
+    //    {
+    //        MusicPlayer.I.gameMixer.FindSnapshot("Enclosed").TransitionTo(3f);
+    //    } else
+    //    {
+    //        MusicPlayer.I.gameMixer.FindSnapshot("Ground").TransitionTo(3f);
+    //    }
+    //}
 
     protected override void Awake()
     {
@@ -93,19 +93,19 @@ public class GameplayControl : SceneControl
 
     private void Update()
     {
-        if (GameplayCamera.I.showAllFloors && !showAllFloorsPrevious)
-        {
-            foreach (FloorZone i in floors)
-            {
-                i.hidden = false;
-            }
-        }
-        else if (!GameplayCamera.I.showAllFloors && showAllFloorsPrevious)
-        {
-            TransitionFloor(currentFloor);
-        }
+        //if (GameplayCamera.I.showAllFloors && !showAllFloorsPrevious)
+        //{
+        //    foreach (FloorZone i in floors)
+        //    {
+        //        i.hidden = false;
+        //    }
+        //}
+        //else if (!GameplayCamera.I.showAllFloors && showAllFloorsPrevious)
+        //{
+        //    TransitionFloor(currentFloor);
+        //}
 
-        showAllFloorsPrevious = GameplayCamera.I.showAllFloors;
+        //showAllFloorsPrevious = GameplayCamera.I.showAllFloors;
     }
 
     private void OnDrawGizmos()

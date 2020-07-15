@@ -3,17 +3,9 @@ using System.Collections.Generic;
 using System.Security.Policy;
 using UnityEngine;
 
-[RequireComponent(typeof(ScriptReference)/*, typeof(Tagged)*/)]
+[RequireComponent(typeof(ScriptReference))]
 public abstract class MonoBehaviourPRO : MonoBehaviour
 {
-    //public Tagged T
-    //{
-    //    get
-    //    {
-    //        return SR.Get<Tagged>();
-    //    }
-    //}
-    
     public ScriptReference SR
     {
         get

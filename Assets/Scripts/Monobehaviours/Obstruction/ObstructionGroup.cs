@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FloorZone : MonoBehaviourPRO
+using TransformTools;
+
+public class ObstructionGroup : MonoBehaviour
 {
-    public string name;
+    public ObstructionCamera camera;
 
     public List<MeshRenderer> toHide;
-    //public List<MeshRenderer> toHideCurrent;
+    
+    public AxisOrder offset;
 
     public bool hidden
     {
@@ -18,8 +21,6 @@ public class FloorZone : MonoBehaviourPRO
         set
         {
             _hidden = value;
-
-            Debug.Log(value);
 
             foreach (MeshRenderer i in toHide)
             {
@@ -48,16 +49,34 @@ public class FloorZone : MonoBehaviourPRO
         }
     }
 
-    public void OnTriggerEnter(Collider other)
+    private void OnDrawGizmosSelected()
     {
-        if (other.gameObject == GameplayControl.I.inControl.gameObject)
-        {
-            //GameplayControl.I.TransitionFloor(this);
-        }
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(offset.ApplyPosition(transform), 0.5f);
     }
 
     private void Update()
     {
-        
+        //bool visible = false;
+
+        //foreach (Renderer i in toHide)
+        //{
+        //    if (i.isVisible)
+        //    {
+        //        visible = true;
+        //    }
+        //}
+
+        //if (visible)
+        //{
+        //    hidden = camera.BetweenSubject(offset.ApplyPosition(transform));
+        //}
+        //else
+        //{
+        //    hidden = false;
+        //}
+
+        hidden = camera.BetweenSubject(offset.ApplyPosition(transform));
+        Debug.Log(gameObject.name + hidden.ToString());
     }
 }

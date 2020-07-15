@@ -17,6 +17,9 @@ public class ScriptReference : MonoBehaviour
             Add<TYPE>();
         }
 
+        //dynamic temp;
+        //components.TryGetValue(typeof(TYPE), out temp);
+        //return temp;
         return components[typeof(TYPE)];
     }
 
