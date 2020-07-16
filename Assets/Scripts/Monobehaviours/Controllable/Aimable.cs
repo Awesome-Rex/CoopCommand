@@ -11,13 +11,16 @@ public class Aimable : MonoBehaviour
         get
         {
             return 
-                (Input.mousePosition) - 
-                GameplayCamera.I.camera.ScaleFromTexture(GameplayCamera.I.camera.WorldToScreenPoint(transform.position));
+                Input.mousePosition - 
+                GameplayCamera.I.camera.ScreenToScreenPoint(GameplayCamera.I.camera.WorldToScreenPoint(transform.position), Camera.main);
         }
     }
     
     void FixedUpdate()
     {
+        Debug.Log(GameplayCamera.I.camera.ScaleFromTexture(GameplayCamera.I.camera.WorldToScreenPoint(transform.position)).ToString() + " -- " +
+             Camera.main.WorldToScreenPoint(transform.position).ToString());
+
         if (GetComponent<Controllable>().inControl)
         {
             transform.forward = new Vector3(direction.x, 0f, direction.y);

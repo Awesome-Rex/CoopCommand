@@ -19,4 +19,9 @@ public static class CameraExtensions
         
         return new Vector3(temp.x, temp.y, point.z);
     }
+
+    public static Vector3 ScreenToScreenPoint (this Camera camera, Vector3 point, Camera to)
+    {
+        return to.ViewportToScreenPoint(camera.ScreenToViewportPoint(point));
+    }
 }

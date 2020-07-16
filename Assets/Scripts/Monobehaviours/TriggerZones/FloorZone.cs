@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FloorZone : MonoBehaviourPRO
 {
-    public string name;
+    public new string name;
 
     public List<MeshRenderer> toHide;
     //public List<MeshRenderer> toHideCurrent;

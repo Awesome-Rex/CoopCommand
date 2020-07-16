@@ -6,7 +6,7 @@ public class GameplayViewCamera : MonoBehaviour
 {
     public static GameplayViewCamera I;
     [HideInInspector]
-    public Camera camera;
+    public new Camera camera;
 
     private void Awake()
     {

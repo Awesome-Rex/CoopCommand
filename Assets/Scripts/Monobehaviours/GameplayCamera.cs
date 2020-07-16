@@ -8,7 +8,7 @@ public class GameplayCamera : MonoBehaviourPRO
 {
     public static GameplayCamera I;
     [HideInInspector]
-    public Camera camera;
+    public new Camera camera;
 
     public float mousePadding = 0.25f;
 
@@ -135,5 +135,9 @@ public class GameplayCamera : MonoBehaviourPRO
         transform.position = Vector3.Lerp(transform.position, targetPosition, speed * Time.deltaTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotateSpeed * Time.deltaTime);
         camera.fieldOfView = Mathf.Lerp(camera.fieldOfView, targetFOV, fieldOfViewSpeed * Time.deltaTime);
+
+        //transform.position = targetPosition;
+        //transform.rotation = targetRotation;
+        //camera.fieldOfView = targetFOV;
     }
 }

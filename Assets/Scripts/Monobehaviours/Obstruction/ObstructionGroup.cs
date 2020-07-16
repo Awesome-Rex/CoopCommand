@@ -6,9 +6,10 @@ using TransformTools;
 
 public class ObstructionGroup : MonoBehaviour
 {
-    public ObstructionCamera camera;
+    public new ObstructionCamera camera;
 
     public List<MeshRenderer> toHide;
+    public Material replacement = null;
     
     public AxisOrder offset;
 
@@ -22,21 +23,43 @@ public class ObstructionGroup : MonoBehaviour
         {
             _hidden = value;
 
+            if (value)
+            {
+                previous = new Dictionary<Renderer, Material[]>();
+            }
+
             foreach (MeshRenderer i in toHide)
             {
-                if (value)
+                if (value) //will be hidden
                 {
-                    i.enabled = false;
+                    if (replacement == null)
+                    {
+                        i.enabled = false;
+                    } else
+                    {
+                        //saves previous state
+                        previous.Add(i, i.materials);
+
+                        i.materials = new Material[] { replacement };
+                    }
                 }
                 else
                 {
-                    i.enabled = true;
+                    if (replacement == null)
+                    {
+                        i.enabled = true;
+                    } else
+                    {
+                        i.materials = previous[i];
+                    }
                 }
             }
         }
     }
 
     private bool _hidden = false;
+
+    private Dictionary<Renderer, Material[]> previous;
 
     [ContextMenu("Get Meshes")]
     public void GetMeshes()
@@ -55,28 +78,18 @@ public class ObstructionGroup : MonoBehaviour
         Gizmos.DrawWireSphere(offset.ApplyPosition(transform), 0.5f);
     }
 
+    private void Awake()
+    {
+        previous = new Dictionary<Renderer, Material[]>();
+
+        foreach (MeshRenderer i in toHide)
+        {
+            previous.Add(i, i.materials);
+        }
+    }
+
     private void Update()
     {
-        //bool visible = false;
-
-        //foreach (Renderer i in toHide)
-        //{
-        //    if (i.isVisible)
-        //    {
-        //        visible = true;
-        //    }
-        //}
-
-        //if (visible)
-        //{
-        //    hidden = camera.BetweenSubject(offset.ApplyPosition(transform));
-        //}
-        //else
-        //{
-        //    hidden = false;
-        //}
-
         hidden = camera.BetweenSubject(offset.ApplyPosition(transform));
-        Debug.Log(gameObject.name + hidden.ToString());
     }
 }
