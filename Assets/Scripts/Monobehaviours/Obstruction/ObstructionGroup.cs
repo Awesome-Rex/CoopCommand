@@ -38,7 +38,15 @@ public class ObstructionGroup : MonoBehaviour
                     } else
                     {
                         //saves previous state
-                        previous.Add(i, i.materials);
+
+                        Material[] newMats = new Material[i.materials.Length];
+
+                        for (int j = 0; j < i.materials.Length; j++)
+                        {
+                            newMats[j] = i.materials[j];
+                        }
+
+                        previous.Add(i, newMats);
 
                         i.materials = new Material[] { replacement };
                     }
@@ -84,7 +92,14 @@ public class ObstructionGroup : MonoBehaviour
 
         foreach (MeshRenderer i in toHide)
         {
-            previous.Add(i, i.materials);
+            Material[] newMats = new Material[i.materials.Length];
+
+            for (int j = 0; j < i.materials.Length; j++)
+            {
+                newMats[j] = i.materials[j];
+            }
+
+            previous.Add(i, newMats);
         }
     }
 
