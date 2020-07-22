@@ -21,12 +21,14 @@ public class ObstructionGroup : MonoBehaviour
         }
         set
         {
-            _hidden = value;
+            
 
-            if (value)
+            if (!_hidden && value) // on "hidden" become true
             {
                 previous = new Dictionary<Renderer, Material[]>();
             }
+
+            _hidden = value;
 
             foreach (MeshRenderer i in toHide)
             {
@@ -39,14 +41,7 @@ public class ObstructionGroup : MonoBehaviour
                     {
                         //saves previous state
 
-                        Material[] newMats = new Material[i.materials.Length];
-
-                        for (int j = 0; j < i.materials.Length; j++)
-                        {
-                            newMats[j] = i.materials[j];
-                        }
-
-                        previous.Add(i, newMats);
+                        previous.Add(i, i.materials.Clone() as Material[]);
 
                         i.materials = new Material[] { replacement };
                     }
@@ -92,14 +87,7 @@ public class ObstructionGroup : MonoBehaviour
 
         foreach (MeshRenderer i in toHide)
         {
-            Material[] newMats = new Material[i.materials.Length];
-
-            for (int j = 0; j < i.materials.Length; j++)
-            {
-                newMats[j] = i.materials[j];
-            }
-
-            previous.Add(i, newMats);
+            previous.Add(i, i.materials.Clone() as Material[]);
         }
     }
 
