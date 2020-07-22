@@ -1,5 +1,10 @@
 {
   "dependencies": {
+    "com.awesomusrex.custom-transforms": "https://github.com/Awesome-Rex/custom-transforms.git",
+    "com.awesomusrex.editor-tools": "https://github.com/Awesome-Rex/editor-tools.git",
+    "com.awesomusrex.referencing": "https://github.com/Awesome-Rex/referencing.git",
+    "com.awesomusrex.rex-core": "https://github.com/Awesome-Rex/rex-core.git",
+    "com.awesomusrex.transform-tools": "https://github.com/Awesome-Rex/transform-tools.git",
     "com.unity.2d.pixel-perfect": "2.0.4",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.animation.rigging": "0.2.6-preview",
@@ -44,5 +49,27 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
+  },
+  "lock": {
+    "com.awesomusrex.editor-tools": {
+      "revision": "HEAD",
+      "hash": "890312446768e39c5ede7e56d85c107f20fa40aa"
+    },
+    "com.awesomusrex.referencing": {
+      "revision": "HEAD",
+      "hash": "f312ed204eebaaaf422a321a06c6cc7d316c712b"
+    },
+    "com.awesomusrex.rex-core": {
+      "revision": "HEAD",
+      "hash": "cd785c10a7c49e1133184f5ff3f7514a35fb29b9"
+    },
+    "com.awesomusrex.transform-tools": {
+      "revision": "HEAD",
+      "hash": "5e81836e805476db6a87cf24949dc4a5f9587041"
+    },
+    "com.awesomusrex.custom-transforms": {
+      "revision": "HEAD",
+      "hash": "fc5b586bd71317069b318941903b110a14e7fedf"
+    }
   }
 }
